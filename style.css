@@ -87,11 +87,13 @@ header p {
 }
 
 .hero {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  min-height: 540px;
+  min-height: 100vh;
+  padding: 20px;
   background: url("IMG_1965.jpg") center center/cover no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+  background-position: center;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,62 +170,96 @@ header p {
 }
 
 .main-title {
-  font-family: var(--font-serif);
-  font-size: 6vw;
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
   font-weight: 900;
-  letter-spacing: 0.12em;
-  color: #fffbe6;
-  text-shadow: 0 8px 32px #000, 0 2px 0 #fffbe6, 0 0 16px #000, 0 0 2px #fff;
-  background: linear-gradient(90deg, #fffbe6 60%, #d1b28a 100%);
+  letter-spacing: 0.05em;
+  color: #c0c0c0;
+  background: linear-gradient(
+    135deg,
+    #e8e8e8 0%,
+    #c0c0c0 25%,
+    #a8a8a8 50%,
+    #c0c0c0 75%,
+    #e8e8e8 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+  padding: 0.2em 0.8em 0.2em 0.8em;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  position: relative;
   margin-right: 40px;
   margin-bottom: 0.2em;
-  filter: drop-shadow(0 2px 8px #b89c7a88);
+  filter: none;
   animation: movieTitleIn 1.4s cubic-bezier(0.23, 1.12, 0.62, 1.01) 0.1s both;
   opacity: 0;
   transform: scale(0.2) translateY(100px);
   z-index: 6;
-  position: relative;
   overflow: visible;
+  text-shadow: 2px 2px 0 #ffffff, 4px 4px 0 #d0d0d0,
+    0 0 20px rgba(192, 192, 192, 0.5);
+  line-height: 1.1;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.main-title::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, #fffbe6, #d1b28a, #b89c7a, #fffbe6);
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  animation: gradientShift 3s ease-in-out infinite;
+/* 一文字ずつのアニメーション */
+.main-title .char {
+  display: inline-block;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transform: translateY(100px) scale(0.3) rotate(-10deg);
+  animation: charPopIn 0.8s cubic-bezier(0.23, 1.12, 0.62, 1.01) forwards;
+  margin: 0 0.05em;
 }
 
+.main-title .char:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.main-title .char:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.main-title .char:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.main-title .char:nth-child(4) {
+  animation-delay: 0.8s;
+}
+.main-title .char:nth-child(5) {
+  animation-delay: 1s;
+}
+.main-title .char:nth-child(6) {
+  animation-delay: 1.2s;
+}
+
+@keyframes charPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.3) rotate(-10deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.2) rotate(5deg);
+  }
+  80% {
+    transform: translateY(5px) scale(0.95) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* 装飾を削除 */
+.main-title::before,
 .main-title::after {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background: radial-gradient(
-    circle,
-    rgba(192, 164, 127, 0.3) 0%,
-    transparent 70%
-  );
-  border-radius: 20px;
-  z-index: -1;
-  animation: titleGlow 4s ease-in-out infinite;
-  opacity: 0;
+  display: none;
 }
 
 .main-title:hover {
@@ -269,8 +305,8 @@ header p {
 
 .catchcopy {
   writing-mode: vertical-rl;
-  font-size: 2.5vw;
-  color: #fff;
+  font-size: clamp(1.1rem, 2.5vw, 2.2rem);
+  color: #fff8dc;
   text-shadow: 0 4px 24px #000, 0 0px 2px #fffbe6, 0 0 8px #000;
   font-weight: bold;
   letter-spacing: 0.1em;
@@ -1315,6 +1351,29 @@ footer p {
   .hero {
     min-height: 100vh;
     padding: 20px;
+    background: url("IMG_1965.jpg") center center/cover no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* iPhoneの縦長画面対応 */
+  @media (max-aspect-ratio: 9/16) {
+    .hero {
+      background-position: center 20%;
+    }
+  }
+
+  /* iPhoneの横向き対応 */
+  @media (min-aspect-ratio: 16/9) and (max-width: 700px) {
+    .hero {
+      background-position: center center;
+    }
   }
 
   .title-area {
@@ -1325,18 +1384,35 @@ footer p {
   }
 
   .main-title {
-    font-size: 8vw;
+    font-size: 10vw;
     margin-right: 0;
-    margin-bottom: 20px;
-    letter-spacing: 0.08em;
+    margin-bottom: 25px;
+    letter-spacing: 0.15em;
+    text-shadow: 0 6px 24px #000, 0 3px 0 #fffbe6, 0 0 20px #000, 0 0 4px #fff;
+    filter: drop-shadow(0 4px 12px #b89c7a88);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fffbe6;
+    -webkit-text-fill-color: #fffbe6;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
   }
 
   .catchcopy {
     writing-mode: horizontal-tb;
-    font-size: 4vw;
-    padding: 15px 20px;
-    margin-bottom: 1em;
-    border-radius: 12px;
+    font-size: 5.5vw;
+    padding: 20px 25px;
+    margin-bottom: 1.5em;
+    border-radius: 15px;
+    text-shadow: 0 4px 16px #000, 0 2px 0 #fffbe6, 0 0 12px #000;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    background: rgba(209, 178, 138, 0.35);
+    border: 2px solid rgba(255, 251, 230, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    color: #fff8dc;
   }
 
   /* メニューボタン */
@@ -1842,5 +1918,47 @@ footer p {
     object-fit: contain;
     border-radius: 12px;
     display: block;
+  }
+}
+
+/* ホバー時の一文字ずつ演出 */
+.main-title:hover .char {
+  animation: charHover 0.6s ease-out;
+}
+
+.main-title:hover .char:nth-child(1) {
+  animation-delay: 0s;
+}
+.main-title:hover .char:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.main-title:hover .char:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.main-title:hover .char:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.main-title:hover .char:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.main-title:hover .char:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+@keyframes charHover {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) scale(1.1) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.15) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-6px) scale(1.05) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
   }
 }
